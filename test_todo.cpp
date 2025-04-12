@@ -55,8 +55,8 @@ TEST(TodoListTest, RemoveInvalidIndexThrows) {
     todo.init();
     todo.add_task("Sample Task");
 
-    // TODO: Try removing at invalid indices
-    // Example: negative index and out-of-bound index
+    EXPECT_THROW(todo.remove_task(-1), std::out_of_range);
+    EXPECT_THROW(todo.remove_task(10), std::out_of_range);
 
     todo.destroy();
 }
@@ -65,8 +65,11 @@ TEST(TodoListTest, AddTooManyTasksThrows) {
     TodoList todo;
     todo.init();
 
-    // TODO: Add exactly 32 tasks in a loop
-    // Then try adding a 33rd task and expect an exception
+    for (int i = 0; i < 32; ++i) {
+        todo.add_task("Task");
+    }
+
+    EXPECT_THROW(todo.add_task("Overflow Task"), std::runtime_error);
 
     todo.destroy();
 }
